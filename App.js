@@ -59,7 +59,23 @@ app.post("/signin", (req, res) => {
 })
 
 
-
+app.post("/view",(req,res)=>{
+    let token=req.headers["token"]
+    jwt.verify(token,"blog-app",(error,decoded)=>{
+        if(error){
+            res.json({"status":"unauthorized access"})
+        }else{
+            if(decoded)
+                {
+                    blogmodel.find().then(
+                        (response)=>{
+                            res.json(response)
+                        }
+                    ).catch()
+                }
+        }
+    })
+})
 
 app.listen(8083, () => {
     console.log("Server Running")
